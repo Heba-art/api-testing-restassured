@@ -69,7 +69,7 @@ api-testing-restassured
 • Fields: <code>id, email, first_name, last_name, avatar</code><br/>
 • Email format valid, avatar URL valid
 </td>
-<td><span style="color:green; font-weight:bold;">200 OK</span></td>
+<td>🟢 <b>200 OK</b></td>
 <td>Matches <code>testGetUsers</code> implemented.</td>
 </tr>
 <tr>
@@ -83,7 +83,7 @@ api-testing-restassured
 • Fields exist: <code>email, first_name, last_name, avatar</code><br/>
 • <code>support</code> contains <code>url, text</code>
 </td>
-<td><span style="color:green; font-weight:bold;">200 OK</span></td>
+<td>🟢 <b>200 OK</b></td>
 <td>Positive path.</td>
 </tr>
 <tr>
@@ -95,7 +95,7 @@ api-testing-restassured
 • <code>statusCode == 404</code><br/>
 • Body empty
 </td>
-<td><span style="color:red; font-weight:bold;">404 Not Found</span></td>
+<td>🔴 <b>404 Not Found</b></td>
 <td>Negative path.</td>
 </tr>
 <tr>
@@ -107,7 +107,7 @@ api-testing-restassured
 • <code>statusCode == 201</code><br/>
 • Body has <code>id, name, job, createdAt</code>
 </td>
-<td><span style="color:green; font-weight:bold;">201 Created</span></td>
+<td>🟢 <b>201 Created</b></td>
 <td>Smoke test for POST.</td>
 </tr>
 <tr>
@@ -119,7 +119,7 @@ api-testing-restassured
 • <code>statusCode == 200</code><br/>
 • Body has <code>name, job, updatedAt</code>
 </td>
-<td><span style="color:green; font-weight:bold;">200 OK</span></td>
+<td>🟢 <b>200 OK</b></td>
 <td>Full update semantics.</td>
 </tr>
 <tr>
@@ -131,7 +131,7 @@ api-testing-restassured
 • <code>statusCode == 200</code><br/>
 • Body has updated <code>job</code> and <code>updatedAt</code>
 </td>
-<td><span style="color:green; font-weight:bold;">200 OK</span></td>
+<td>🟢 <b>200 OK</b></td>
 <td>Partial update semantics.</td>
 </tr>
 <tr>
@@ -143,7 +143,7 @@ api-testing-restassured
 • <code>statusCode == 204</code><br/>
 • Response body empty
 </td>
-<td><span style="color:green; font-weight:bold;">204 No Content</span></td>
+<td>🟢 <b>204 No Content</b></td>
 <td>ReqRes mock API.</td>
 </tr>
 <tr>
@@ -155,7 +155,7 @@ api-testing-restassured
 • <code>statusCode == 200</code><br/>
 • Body has <code>token</code> (non-empty)
 </td>
-<td><span style="color:green; font-weight:bold;">200 OK</span></td>
+<td>🟢 <b>200 OK</b></td>
 <td>Valid credentials.</td>
 </tr>
 <tr>
@@ -167,22 +167,17 @@ api-testing-restassured
 • <code>statusCode == 400</code><br/>
 • Body has <code>error</code> ("Missing password")
 </td>
-<td><span style="color:orange; font-weight:bold;">400 Bad Request</span></td>
+<td>🟠 <b>400 Bad Request</b></td>
 <td>Negative path validation.</td>
 </tr>
 </tbody>
 </table>
 
-
-# 🔍 Schema-Level Validation (Optional Future Improvement)
-
-Extend the test to validate the structure of each user object returned in the data array:
-<h3>🔍 Schema-Level Validation</h3>
-
-<h2>🔍 Schema-Level Validation</h2>
+<h3>🔎 Schema-Level Validation</h3>
+<p>Validate the structure of each user object returned in <code>data</code>:</p>
 
 <table border="1" cellpadding="6" cellspacing="0" width="100%">
-  <thead style="background:#f3f4f6;">
+  <thead>
     <tr>
       <th>Field</th>
       <th>Type</th>
@@ -194,35 +189,36 @@ Extend the test to validate the structure of each user object returned in the da
     <tr>
       <td><code>id</code></td>
       <td>integer</td>
-      <td><span style="color:green; font-weight:bold;">Required</span></td>
+      <td>✅ Required</td>
       <td><code>2</code></td>
     </tr>
     <tr>
       <td><code>email</code></td>
       <td>string</td>
-      <td><span style="color:orange; font-weight:bold;">Required, valid email format</span></td>
+      <td>✅ Required, valid email format</td>
       <td><code>janet.weaver@reqres.in</code></td>
     </tr>
     <tr>
       <td><code>first_name</code></td>
       <td>string</td>
-      <td><span style="color:green; font-weight:bold;">Required</span></td>
+      <td>✅ Required</td>
       <td><code>Janet</code></td>
     </tr>
     <tr>
       <td><code>last_name</code></td>
       <td>string</td>
-      <td><span style="color:green; font-weight:bold;">Required</span></td>
+      <td>✅ Required</td>
       <td><code>Weaver</code></td>
     </tr>
     <tr>
       <td><code>avatar</code></td>
       <td>string (URL)</td>
-      <td><span style="color:blue; font-weight:bold;">Required, valid URL</span></td>
+      <td>✅ Required, valid URL</td>
       <td><code>https://reqres.in/img/faces/2-image.jpg</code></td>
     </tr>
   </tbody>
 </table>
+
 
 
 ## ▶️ How to Run
