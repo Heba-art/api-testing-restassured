@@ -42,102 +42,34 @@ api-testing-restassured
 │               └── ReqResApiTest.java
 └── pom.xml
 ```
-<h3>Test Case Details: <code>testGetUsers</code></h3>
-<p>
-  This test validates the <code>GET /users?page=2</code> endpoint of the ReqRes API.
-  It ensures both functional correctness and data integrity of the API response.
-</p>
+# 📋 API Test Cases – ReqRes
 
-<table border="1" cellpadding="6" cellspacing="0" width="100%">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Step</th>
-      <th>Assertion / Expected</th>
-      <th>Why it matters</th>
-      <th>Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td><strong>Send Request</strong><br>
-          Execute HTTP <code>GET</code> to <code>/users?page=2</code>.
-      </td>
-      <td>Request is processed successfully by the server.</td>
-      <td>Initiates retrieval of a paginated users list.</td>
-      <td><code>GET https://reqres.in/api/users?page=2</code></td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td><strong>Status Code Validation</strong></td>
-      <td><code>status = 200 (OK)</code></td>
-      <td>Confirms the endpoint is reachable and handled correctly.</td>
-      <td><code>HTTP/1.1 200 OK</code></td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td><strong>Pagination Check</strong></td>
-      <td>Response body contains <code>"page": 2</code></td>
-      <td>Verifies the API returned the requested page (important for UIs using paging).</td>
-      <td><code>{ "page": 2, "per_page": 6, ... }</code></td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td><strong>Data Integrity</strong></td>
-      <td><code>data</code> array is not empty (<code>data.length &gt; 0</code>)</td>
-      <td>Ensures actual user records are returned, not an empty payload.</td>
-      <td><code>"data": [{ "id": 7, "email": "...", ... }]</code></td>
-    </tr>
-  </tbody>
-</table>
+| ID      | Title                     | Endpoint / Method        | Request (Params / Body)                              | Validations (Assertions)                                                                                                      | Expected HTTP | Notes                                |
+|---------|---------------------------|--------------------------|------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|---------------|--------------------------------------|
+| TC-001  | List Users – page 2       | `GET /users?page=2`      | Query: `page=2`                                      | • `statusCode == 200` <br> • `page == 2` <br> • `data.size() > 0` <br> • Fields: `id, email, first_name, last_name, avatar` <br> • Email format valid, avatar URL valid | **200 OK**    | Matches `testGetUsers` implemented. |
+| TC-002  | Get Single User (exists)  | `GET /users/2`           | Path: `id = 2`                                       | • `statusCode == 200` <br> • `data.id == 2` <br> • Required fields: `email, first_name, last_name, avatar` <br> • `support` has `url` & `text`                         | **200 OK**    | Positive path                        |
+| TC-003  | Get Single User (not found)| `GET /users/23`          | Path: `id = 23` (non-existing)                       | • `statusCode == 404` <br> • Body empty                                                                                        | **404 Not Found** | Negative path                        |
+| TC-004  | Create User               | `POST /users`            | JSON: `{ "name": "Heba", "job": "QA" }`              | • `statusCode == 201` <br> • Body has `id`, `name`, `job`, `createdAt` (ISO-8601)                                             | **201 Created** | Smoke test for POST                  |
+| TC-005  | Update User (PUT)         | `PUT /users/2`           | JSON: `{ "name": "Heba", "job": "QA Lead" }`         | • `statusCode == 200` <br> • Body has `name`, `job`, `updatedAt` (ISO-8601)                                                    | **200 OK**    | Full update semantics                |
+| TC-006  | Partial Update (PATCH)    | `PATCH /users/2`         | JSON: `{ "job": "Principal QA" }`                    | • `statusCode == 200` <br> • Body has updated `job` + `updatedAt`                                                              | **200 OK**    | Partial update semantics             |
+| TC-007  | Delete User               | `DELETE /users/2`        | Path: `id = 2`                                       | • `statusCode == 204` <br> • Response body empty                                                                               | **204 No Content** | ReqRes mock API                      |
+| TC-008  | Login – success           | `POST /login`            | JSON: `{ "email": "eve.holt@reqres.in", "password": "cityslicka" }` | • `statusCode == 200` <br> • Body has `token` (non-empty)                                                                     | **200 OK**    | Valid credentials per ReqRes docs    |
+| TC-009  | Login – missing password  | `POST /login`            | JSON: `{ "email": "peter@klaven" }`                  | • `statusCode == 400` <br> • Body has `error` ("Missing password")                                                            | **400 Bad Request** | Negative path validation             |
 
-<h4>Schema-Level Validation (Optional Future Improvement)</h4>
-<p>Extend the test to validate the structure of each user object:</p>
+# 🔍 Schema-Level Validation (Optional Future Improvement)
 
-<table border="1" cellpadding="6" cellspacing="0" width="100%">
-  <thead>
-    <tr>
-      <th>Field</th>
-      <th>Type</th>
-      <th>Constraint</th>
-      <th>Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>id</code></td>
-      <td>integer</td>
-      <td>Required</td>
-      <td><code>2</code></td>
-    </tr>
-    <tr>
-      <td><code>email</code></td>
-      <td>string</td>
-      <td>Required, valid email format</td>
-      <td><code>janet.weaver@reqres.in</code></td>
-    </tr>
-    <tr>
-      <td><code>first_name</code></td>
-      <td>string</td>
-      <td>Required</td>
-      <td><code>Janet</code></td>
-    </tr>
-    <tr>
-      <td><code>last_name</code></td>
-      <td>string</td>
-      <td>Required</td>
-      <td><code>Weaver</code></td>
-    </tr>
-    <tr>
-      <td><code>avatar</code></td>
-      <td>string (URL)</td>
-      <td>Required, valid URL</td>
-      <td><code>https://reqres.in/img/faces/2-image.jpg</code></td>
-    </tr>
-  </tbody>
-</table>
-## ▶️ How to Run 1. Clone the repo:
+Extend the test to validate the structure of each user object returned in the data array:
+
+| Field       | Type         | Constraint                  | Example                                  |
+|-------------|-------------|-----------------------------|------------------------------------------|
+| `id`        | integer      | Required                    | `2`                                      |
+| `email`     | string       | Required, valid email format| `janet.weaver@reqres.in`                 |
+| `first_name`| string       | Required                    | `Janet`                                  |
+| `last_name` | string       | Required                    | `Weaver`                                 |
+| `avatar`    | string (URL) | Required, valid URL         | `https://reqres.in/img/faces/2-image.jpg`|
+
+## ▶️ How to Run
+1. Clone the repo:
 
 ```bash
    git clone https://github.com/Heba-art/api-testing-restassured.git
@@ -156,4 +88,5 @@ Default TestNG reports will be generated under:
   target/surefire-reports
 ```
 📜 License
+
 This project is licensed under the MIT License
