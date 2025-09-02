@@ -192,19 +192,6 @@ If you want to run against the real API, switch the baseUri back to https://reqr
 <td>🟠 <b>400 Bad Request</b></td>
 <td>Negative path validation.</td>
 </tr>
-<tr>
-  <td><b>TC-010</b></td>
-  <td>Login – missing password</td>
-  <td><code>POST /login</code></td>
-  <td>Body: <code>{"email":"peter@klaven"}</code></td>
-  <td>
-    • <code>statusCode == 400</code><br/>
-    • <code>error == "Missing password"</code>
-  </td>
-  <td>🟠 400 Bad Request</td>
-  <td>Negative path validation.</td>
-</tr>
-
 </tbody>
 </table>
 
