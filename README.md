@@ -41,6 +41,7 @@ api-testing-restassured
 │           └── tests
 │               └── ReqResApiTest.java
 └── pom.xml
+└── README.md
 ```
 # API Tests (RestAssured + TestNG) — Local & Deterministic
 ## Why WireMock?
