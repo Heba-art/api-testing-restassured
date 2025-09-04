@@ -44,7 +44,8 @@ api-testing-restassured
 ```
 # API Tests (RestAssured + TestNG) — Local & Deterministic
 ## Why WireMock?
-Public sandbox (reqres.in) sometimes returns 401/403 (“Missing/Invalid API key”) from upstream gateways. To keep tests stable and deterministic, we mock the API locally with WireMock and stub the exact responses we expect.
+Public sandbox (reqres.in) sometimes returns 401/403 (“Missing/Invalid API key”) from upstream gateways. To keep tests stable and deterministic, I mock the API locally with WireMock and stub the exact responses we expect.
+
 Note: When running against the real API, tests contain a small helper that passes 401/403 gateway blocks instead of failing, since that’s infrastructure—not logic.
 
 ## How it works (brief)
